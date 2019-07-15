@@ -1,0 +1,23 @@
+{
+  "name": "laike-cli",
+  "version": "1.0.0",
+  "description": "laike webpack vue-cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangnan41/laike-cli.git"
+  },
+  "keywords": [
+    "webpack",
+    "vue"
+  ],
+  "author": "wangnan31",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangnan41/laike-cli/issues"
+  },
+  "homepage": "https://github.com/wangnan41/laike-cli#readme"
+}
