@@ -3,7 +3,6 @@
 v0.1
 * webpack4
 * 多页面
-* 单页面
 * babel 7
 * scss
 * autoprefixer
