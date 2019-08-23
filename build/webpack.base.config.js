@@ -5,8 +5,19 @@ const moment = require('moment');
 const autoprefixer = require('autoprefixer');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
+const chalk = require('chalk');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+
 
 module.exports =  {
+    entry: {
+        index: '../src/entry/index.js',
+        detail: '../src/entry/detail.js'
+    },
+    output:{
+        path: path.resolve(__dirname, '../dist/'),
+        filename:'[name].[hash].js'
+    },
     stats:{
         entrypoints:false,
         children:false
@@ -64,7 +75,7 @@ module.exports =  {
         },
     ],
     plugins: [
-        new CleanWebpackPlugin('dist'),
+        new CleanWebpackPlugin(),
         new webpack.BannerPlugin({
             banner: `laike-cli ${moment().format()} (c) 2019-2020 JD Released under the MIT License.`
         }),
@@ -80,6 +91,9 @@ module.exports =  {
                 autoprefixer: false,
             },
 
+        }),
+        new ProgressBarPlugin({
+            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
         })
     ],
 }
