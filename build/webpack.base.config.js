@@ -75,7 +75,7 @@ module.exports =  {
         },
     ],
     plugins: [
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin(), 
         new webpack.BannerPlugin({
             banner: `laike-cli ${moment().format()} (c) 2019-2020 JD Released under the MIT License.`
         }),
