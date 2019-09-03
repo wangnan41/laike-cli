@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cmn-Hans">
 <head>
-    <meta charset="utf-8" /> 
-    <meta content="telephone=no" name="format-detection"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" name="viewport" />
-    <title>我是详情页</title> 
+    <meta charset="utf-8">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" name="viewport">
+    <title>详情页</title>
     <script>
-        (function(){var a=document.documentElement.clientWidth||document.body.clientWidth;if(a>460){a=460}else{if(a<320){a=320}}document.documentElement.style.fontSize=a/7.5+"px"})();
+        (function(){
+            var a=document.documentElement.clientWidth||document.body.clientWidth;if(a>640){a=640}else{if(a<320){a=320}}document.documentElement.style.fontSize=a/7.5+"px"
+        })();
     </script>
+    
+    <body>
+        <div id="app"></div>
+    </body>
 
-</head> 
-  <body>
-    <script>
-        window.supportWebp = false;
-        if(document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') == 0){
-          document.body.classList.add('webp');
-          window.supportWebp = true;
-        }  
-    </script>
-    <div id="app"></div>
-  </body>
 </html>

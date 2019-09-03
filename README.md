@@ -1,10 +1,6 @@
-# laike-cli
+# laike h5 多页面脚手架
 
-v0.1
+
 * webpack4
-* 多页面
-* babel 7
-* scss
-* autoprefixer
-
+* css 自动补全
 
