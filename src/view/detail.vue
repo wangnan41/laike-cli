@@ -25,6 +25,7 @@ export default {
         for (let a of m) {
             console.log(a);
         }
+        console.log(23232322);
     },
     destroyed() {},
     methods: {}

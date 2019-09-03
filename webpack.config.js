@@ -12,6 +12,7 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const moment = require('moment');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");
 
 
 module.exports = (env, argv) => {
@@ -24,8 +25,14 @@ module.exports = (env, argv) => {
         output: {
             path: path.resolve(__dirname, 'dist'),
             publicPath: '/',
-            filename: 'js/[name].js',
-            chunkFilename: 'js/[name].js'
+            filename: 'js/[name].[chunkhash].js',
+            chunkFilename: 'js/[name].[chunkhash].js'
+        },
+        optimization: {
+            namedChunks: true,
+            runtimeChunk: {
+                name: 'manifest'
+            },
         },
         stats: {
             entrypoints: false,
@@ -106,8 +113,9 @@ module.exports = (env, argv) => {
         plugins: [
             new CleanWebpackPlugin('dist'),
             new VueLoaderPlugin(),
+            new webpack.HashedModuleIdsPlugin(),
             new MinicssExtractPlugin({
-                filename: 'css/[name].css',
+                filename: 'css/[name].[contenthash].css',
             }),
             new OptimizeCssAssetsPlugin({
                 assetNameRegExp: /\.css\.*(?!.*map)$/g,
@@ -122,17 +130,17 @@ module.exports = (env, argv) => {
                 template: './src/template/index.html',
                 filename: 'index.html',
                 inject: 'body',
-                chunks: ['index'],
-                chunksSortMode: 'none'
+                chunks: ['manifest','index'],
+                chunksSortMode: 'auto'
             }),
             new HtmlWebpackPlugin({
                 template: './src/template/detail.html',
                 filename: 'detail.html',
                 inject: 'body',
-                chunks: ['detail'],
-                chunksSortMode: 'none'
+                chunks: ['manifest','detail'],
+                chunksSortMode: 'auto'
             })
-        ],
+        ]
     }
 
     if (argv.mode === 'production') {
@@ -149,7 +157,7 @@ module.exports = (env, argv) => {
             }),
             //new BundleAnalyzerPlugin(),
             new CopyWebpackPlugin([
-                { from: path.join(__dirname, "./static/vendor.dll.js"), to: path.join(__dirname, "./dist/lib/vendor.dll.js") }
+                { from: path.join(__dirname,"./static/vendor.dll.js"), to: path.join(__dirname,"./dist/lib/vendor.dll.js") }
             ]),
             new webpack.BannerPlugin({
                 banner: `${config.name} ${config.version} ${moment().format()}`
@@ -157,21 +165,24 @@ module.exports = (env, argv) => {
         ]);
     } else {
         webpackConfig.plugins = (webpackConfig.plugins || []).concat([
+            
             new HtmlWebpackPlugin({
                 template: './src/template/index.html',
                 filename: path.resolve(__dirname, 'dist/index.html'),
                 inject: 'body',
-                chunks: ['index'],
-                chunksSortMode: 'none'
+                chunks: ['manifest','index'],
+                chunksSortMode: 'auto'
             }),
             new HtmlWebpackPlugin({
                 template: './src/template/detail.html',
                 filename: path.resolve(__dirname, 'dist/detail.html'),
                 inject: 'body',
-                chunks: ['detail'],
-                chunksSortMode: 'none'
+                chunks: ['manifest','detail'],
+                chunksSortMode: 'auto'
             }),
-            
+            new MinicssExtractPlugin({
+                filename: 'css/[name].css',
+            }),
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./static/vendordev-manifest.json')
@@ -183,7 +194,12 @@ module.exports = (env, argv) => {
 
         ]);
         
-        webpackConfig.output.publicPath = '/';
+        webpackConfig.output = {
+            path: path.resolve(__dirname, 'dist'),
+            publicPath: '/',
+            filename: 'js/[name].js',
+            chunkFilename: 'js/[name].js'
+        }
         webpackConfig.devtool = '#cheap-module-eval-source-map';
         webpackConfig.devServer = {
             contentBase: path.resolve(__dirname, 'dist'),

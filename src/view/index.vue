@@ -37,6 +37,7 @@ export default {
     font-size: 12px;
     a {
         color: #333;
+        font-size:16px;
     }
 }
 
