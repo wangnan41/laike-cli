@@ -4,7 +4,7 @@ const config = require('./package.json');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const moment   = require('moment');
 
-let vendorStr = "qs,axios";//模版生成占位
+let vendorStr = "qs,axios,vue-router";//模版生成占位
 let vendor = ['vue/dist/vue.runtime.esm.js'].concat(vendorStr.split(','));
 let vendordev =['vue/dist/vue.esm.js'].concat(vendorStr.split(','));//集成开发版本vue
 
